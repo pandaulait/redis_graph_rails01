@@ -1,9 +1,17 @@
 class PrefecturesController < ApplicationController
   before_action :set_prefecture, only: %i[ show edit update destroy ]
-
+  include RedisGraphClient
   # GET /prefectures or /prefectures.json
   def index
     @prefectures = Prefecture.all
+    @all_nodes = pp rg.query("""MATCH (n) RETURN n""").resultset.first
+    # p "--------------"
+    # cmd = """CREATE (:Rider {name:'Valentino Rossi'})-[:rides]->(:Team {name:'Yamaha'}), (:Rider {name:'Dani Pedrosa'})-[:rides]->(:Team {name:'Honda'}), (:Rider {name:'Andrea Dovizioso'})-[:rides]->(:Team {name:'Ducati'})"""
+    # pp rg.query(cmd)
+    # p "--------------"
+    # cmd = """MATCH (r:Rider)-[:rides]->(t:Team) WHERE t.name = 'Yamaha' RETURN r.name, t.name"""
+    # pp rg.query(cmd)
+    # p "--------------"
   end
 
   # GET /prefectures/1 or /prefectures/1.json
