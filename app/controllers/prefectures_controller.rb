@@ -35,6 +35,9 @@ class PrefecturesController < ApplicationController
       if @prefecture.save
         format.html { redirect_to prefecture_url(@prefecture), notice: "Prefecture was successfully created." }
         format.json { render :show, status: :created, location: @prefecture }
+        p "--------------"
+        pp rg.query("""CREATE (n:Prefecture {name: '#{@prefecture.name}'}) RETURN n""").resultset.first
+        p "--------------"
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @prefecture.errors, status: :unprocessable_entity }
